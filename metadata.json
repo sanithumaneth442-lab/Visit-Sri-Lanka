@@ -1,0 +1,6 @@
+{
+  "name": "CeylonDiscovery",
+  "description": "Curated luxury travel, destinations, experiences, and custom AI itinerary planner for Sri Lanka.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
