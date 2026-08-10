@@ -1,124 +1,127 @@
 import React from 'react';
-import { Destination, ViewType } from '../types';
-import { X, Calendar, MapPin, CheckCircle2, DollarSign, Sparkles, ArrowRight } from 'lucide-react';
+import { Destination } from '../types';
 
 interface DestinationModalProps {
   destination: Destination | null;
   onClose: () => void;
-  onNavigate: (view: ViewType) => void;
+  onPlanTrip: (destinationName?: string) => void;
 }
 
 export const DestinationModal: React.FC<DestinationModalProps> = ({
   destination,
   onClose,
-  onNavigate
+  onPlanTrip,
 }) => {
   if (!destination) return null;
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6 animate-in fade-in duration-200">
-      <div className="relative w-full max-w-3xl bg-[#ffffff] rounded-3xl overflow-hidden shadow-2xl border border-[#e4e2dd] my-8">
-        
-        {/* Header Image */}
-        <div className="relative h-72 sm:h-80 bg-[#1b1c19]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-6 bg-black/70 backdrop-blur-md animate-fadeIn">
+      <div 
+        className="bg-[#fbf9f4] w-full max-w-4xl max-h-[90vh] rounded-2xl shadow-2xl overflow-hidden flex flex-col border border-[#bec9be]"
+        onClick={e => e.stopPropagation()}
+      >
+        {/* Modal Header with Full Height Photo */}
+        <div className="relative h-72 md:h-96 w-full shrink-0">
           <img
-            src={destination.image}
-            alt={destination.alt}
+            src={destination.imageUrl}
+            alt={destination.altText}
+            referrerPolicy="no-referrer"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#1b1c19] via-transparent to-transparent opacity-80" />
-
-          {/* Close button */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
+          
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 w-9 h-9 rounded-full bg-[#1b1c19]/60 hover:bg-[#1b1c19] text-white flex items-center justify-center backdrop-blur-md transition-colors"
+            className="absolute top-4 right-4 w-10 h-10 rounded-full bg-black/50 text-white flex items-center justify-center hover:bg-black/80 transition-colors z-20"
+            aria-label="Close detail modal"
           >
-            <X className="w-5 h-5" />
+            <span className="material-symbols-outlined text-2xl">close</span>
           </button>
 
-          {/* Badges */}
-          <div className="absolute top-4 left-4 flex items-center space-x-2">
-            <span className="bg-[#00502d] text-white text-xs font-semibold px-3 py-1 rounded-full shadow">
-              {destination.category}
-            </span>
-            <span className="bg-[#f0eee9] text-[#1b1c19] text-xs font-medium px-3 py-1 rounded-full shadow">
-              {destination.region}
-            </span>
-          </div>
-
-          {/* Bottom Title on Image */}
-          <div className="absolute bottom-6 left-6 right-6 text-white space-y-1">
-            <span className="text-xs text-[#81d9a1] font-semibold tracking-wider uppercase block">
-              {destination.subtitle}
-            </span>
-            <h2 className="font-serif text-3xl sm:text-4xl font-semibold text-white">
-              {destination.title}
+          <div className="absolute bottom-6 left-6 right-6 text-white z-10">
+            <div className="flex items-center gap-3 mb-2">
+              <span className="px-3 py-1 bg-white/20 backdrop-blur-md rounded-full font-label-md text-xs text-white uppercase tracking-wider font-semibold">
+                {destination.category}
+              </span>
+              <span className="text-sm text-white/80 font-medium">{destination.region}</span>
+            </div>
+            <h2 className="font-headline-md text-3xl md:text-5xl font-bold mb-1">
+              {destination.name}
             </h2>
+            <p className="text-white/90 text-sm md:text-base max-w-2xl font-light">
+              {destination.description}
+            </p>
           </div>
         </div>
 
-        {/* Modal Body */}
-        <div className="p-6 sm:p-8 space-y-6">
-          
-          <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-[#f0eee9] text-xs sm:text-sm text-[#3f4941]">
-            <div className="flex items-center space-x-2 text-[#733200] font-semibold">
-              <Calendar className="w-4 h-4" />
-              <span>Best Visit Months: {destination.bestTimeToVisit}</span>
+        {/* Modal Body Content */}
+        <div className="p-6 md:p-8 overflow-y-auto space-y-6 flex-1 bg-[#fbf9f4]">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 border-b border-[#bec9be] pb-6">
+            <div className="bg-[#f5f3ee] p-4 rounded-xl border border-[#e4e2dd]">
+              <span className="text-xs text-[#6f7a70] uppercase font-semibold block mb-1">Estimated Cost</span>
+              <p className="font-headline-sm text-xl text-[#00502d] font-bold">
+                ${destination.pricePerNight} <span className="text-xs text-[#3f4941] font-normal">/ night</span>
+              </p>
             </div>
-            {destination.startingPrice && (
-              <div className="flex items-center space-x-1 text-[#006b3e] font-bold">
-                <DollarSign className="w-4 h-4" />
-                <span>Luxury Stays From ${destination.startingPrice} / night</span>
-              </div>
-            )}
+            <div className="bg-[#f5f3ee] p-4 rounded-xl border border-[#e4e2dd]">
+              <span className="text-xs text-[#6f7a70] uppercase font-semibold block mb-1">Best Time to Visit</span>
+              <p className="font-headline-sm text-lg text-[#1b1c19] font-semibold">
+                {destination.bestTimeToVisit}
+              </p>
+            </div>
+            <div className="bg-[#f5f3ee] p-4 rounded-xl border border-[#e4e2dd]">
+              <span className="text-xs text-[#6f7a70] uppercase font-semibold block mb-1">Suggested Stay</span>
+              <p className="font-headline-sm text-lg text-[#1b1c19] font-semibold">
+                {destination.suggestedDuration}
+              </p>
+            </div>
           </div>
 
-          <div className="space-y-3">
-            <h3 className="font-serif text-xl font-semibold text-[#1b1c19]">
-              About {destination.title}
-            </h3>
-            <p className="text-sm text-[#3f4941] leading-relaxed">
-              {destination.longDescription || destination.description}
+          <div>
+            <h3 className="font-headline-sm text-2xl text-[#00502d] font-bold mb-3">About {destination.name}</h3>
+            <p className="font-body-md text-base text-[#3f4941] leading-relaxed">
+              {destination.longDescription}
             </p>
           </div>
 
-          {/* Highlights */}
-          <div className="space-y-3 pt-2">
-            <h4 className="text-xs font-bold text-[#1b1c19] uppercase tracking-wider">
-              Destination Highlights
-            </h4>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-              {destination.highlights.map((hl, i) => (
-                <div key={i} className="flex items-center space-x-2 text-xs text-[#3f4941] bg-[#f0eee9]/60 p-2.5 rounded-xl">
-                  <CheckCircle2 className="w-4 h-4 text-[#006b3e] shrink-0" />
-                  <span>{hl}</span>
+          <div>
+            <h3 className="font-headline-sm text-xl text-[#00502d] font-bold mb-3">Experience Highlights</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {destination.highlights.map((item, idx) => (
+                <div key={idx} className="flex items-center gap-3 p-3 bg-white rounded-lg border border-[#e4e2dd]">
+                  <span className="material-symbols-outlined text-[#00502d]">check_circle</span>
+                  <span className="text-sm font-medium text-[#1b1c19]">{item}</span>
                 </div>
               ))}
             </div>
           </div>
+        </div>
 
-          {/* Actions */}
-          <div className="pt-6 border-t border-[#f0eee9] flex flex-col sm:flex-row items-center justify-between gap-4">
+        {/* Modal Action Bar */}
+        <div className="p-6 bg-white border-t border-[#bec9be] flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div>
+            <span className="text-xs text-[#3f4941] block">Ready to visit {destination.name}?</span>
+            <span className="font-headline-sm text-lg text-[#00502d] font-bold">Custom luxury itineraries curated by local experts</span>
+          </div>
+          <div className="flex items-center gap-3 w-full sm:w-auto">
             <button
               onClick={onClose}
-              className="text-xs font-semibold text-[#6f7a70] hover:text-[#1b1c19]"
+              className="px-5 py-2.5 rounded-full border border-[#bec9be] text-[#3f4941] font-label-md text-sm hover:bg-[#f5f3ee] transition-colors w-1/2 sm:w-auto"
             >
-              Close Window
+              Close
             </button>
             <button
               onClick={() => {
                 onClose();
-                onNavigate('plan');
+                onPlanTrip(destination.name);
               }}
-              className="w-full sm:w-auto px-6 py-3 bg-[#006b3e] hover:bg-[#00502d] text-white font-semibold text-xs sm:text-sm rounded-xl transition-all shadow flex items-center justify-center space-x-2"
+              className="bg-[#00502d] text-white px-6 py-2.5 rounded-full font-label-md text-sm font-semibold hover:bg-[#006b3e] transition-colors shadow-sm flex items-center justify-center gap-2 w-1/2 sm:w-auto"
             >
-              <span>Add to Custom Itinerary</span>
-              <ArrowRight className="w-4 h-4" />
+              <span>Include in Trip</span>
+              <span className="material-symbols-outlined text-base">arrow_forward</span>
             </button>
           </div>
-
         </div>
-
       </div>
     </div>
   );

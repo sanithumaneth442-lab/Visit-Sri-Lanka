@@ -1,117 +1,122 @@
 import React from 'react';
-import { ViewType } from '../types';
-import { Compass, Mail, MapPin, Phone, Instagram, Facebook, Twitter } from 'lucide-react';
+import { ViewTab } from '../types';
 
 interface FooterProps {
-  onNavigate: (view: ViewType) => void;
+  onSelectTab: (tab: ViewTab) => void;
+  compact?: boolean;
 }
 
-export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
+export const Footer: React.FC<FooterProps> = ({ onSelectTab, compact = false }) => {
+  if (compact) {
+    return (
+      <footer className="bg-[#ffffff] border-t border-[#bec9be] w-full py-8 mt-auto">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 px-6 md:px-12 max-w-7xl mx-auto text-center md:text-left">
+          <div className="col-span-1 md:col-span-2">
+            <button 
+              onClick={() => onSelectTab('home')} 
+              className="font-headline-sm text-2xl text-[#00502d] font-bold mb-1 hover:opacity-80"
+            >
+              CeylonDiscovery
+            </button>
+            <p className="font-body-md text-sm text-[#3f4941]">© 2024 Visit Sri Lanka. Serenity in every step.</p>
+          </div>
+          <div className="col-span-1 md:col-span-2 flex justify-center md:justify-end gap-6 items-center">
+            <button onClick={() => onSelectTab('about')} className="font-label-md text-sm text-[#3f4941] hover:text-[#00502d] transition-colors">
+              Privacy Policy
+            </button>
+            <button onClick={() => onSelectTab('about')} className="font-label-md text-sm text-[#3f4941] hover:text-[#00502d] transition-colors">
+              Contact Support
+            </button>
+          </div>
+        </div>
+      </footer>
+    );
+  }
+
   return (
-    <footer className="bg-[#1b1c19] text-[#e4e2dd] pt-16 pb-12 border-t border-[#3f4941]/30">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 pb-12 border-b border-[#3f4941]/30">
-          
-          {/* Brand Col */}
-          <div className="space-y-4">
-            <div className="flex items-center space-x-3">
-              <div className="w-9 h-9 rounded-full bg-[#81d9a1] text-[#00502d] flex items-center justify-center font-bold">
-                <Compass className="w-5 h-5" />
-              </div>
-              <span className="font-serif text-2xl font-semibold text-[#ffffff] tracking-tight">
-                CeylonDiscovery
-              </span>
-            </div>
-            <p className="text-sm text-[#bec9be] leading-relaxed">
-              Curated luxury travel, bespoke island itineraries, and private wildlife safaris across Sri Lanka.
-            </p>
-            <div className="flex items-center space-x-4 pt-2">
-              <a href="#instagram" className="w-9 h-9 rounded-full bg-[#3f4941]/50 flex items-center justify-center text-[#bec9be] hover:text-white hover:bg-[#006b3e] transition-colors">
-                <Instagram className="w-4 h-4" />
-              </a>
-              <a href="#facebook" className="w-9 h-9 rounded-full bg-[#3f4941]/50 flex items-center justify-center text-[#bec9be] hover:text-white hover:bg-[#006b3e] transition-colors">
-                <Facebook className="w-4 h-4" />
-              </a>
-              <a href="#twitter" className="w-9 h-9 rounded-full bg-[#3f4941]/50 flex items-center justify-center text-[#bec9be] hover:text-white hover:bg-[#006b3e] transition-colors">
-                <Twitter className="w-4 h-4" />
-              </a>
-            </div>
-          </div>
-
-          {/* Quick Links */}
-          <div className="space-y-3">
-            <h4 className="font-serif text-lg font-semibold text-[#ffffff]">Explore Island</h4>
-            <ul className="space-y-2 text-sm text-[#bec9be]">
-              <li>
-                <button onClick={() => onNavigate('destinations')} className="hover:text-[#81d9a1] transition-colors">
-                  Breathtaking Destinations
-                </button>
-              </li>
-              <li>
-                <button onClick={() => onNavigate('experiences')} className="hover:text-[#81d9a1] transition-colors">
-                  Curated Experiences
-                </button>
-              </li>
-              <li>
-                <button onClick={() => onNavigate('culture')} className="hover:text-[#81d9a1] transition-colors">
-                  Culture & Heritage
-                </button>
-              </li>
-              <li>
-                <button onClick={() => onNavigate('plan')} className="hover:text-[#81d9a1] transition-colors">
-                  Craft Your Custom Itinerary
-                </button>
-              </li>
-              <li>
-                <button onClick={() => onNavigate('about')} className="hover:text-[#81d9a1] transition-colors">
-                  The Ceylon Difference
-                </button>
-              </li>
-            </ul>
-          </div>
-
-          {/* Top Regions */}
-          <div className="space-y-3">
-            <h4 className="font-serif text-lg font-semibold text-[#ffffff]">Featured Regions</h4>
-            <ul className="space-y-2 text-sm text-[#bec9be]">
-              <li>Ella & Tea Highlands</li>
-              <li>Yala National Park</li>
-              <li>Galle Fort Historic Citadel</li>
-              <li>Mirissa & Southern Coast</li>
-              <li>Sigiriya & Cultural Triangle</li>
-            </ul>
-          </div>
-
-          {/* Concierge Info */}
-          <div className="space-y-4">
-            <h4 className="font-serif text-lg font-semibold text-[#ffffff]">Island Concierge</h4>
-            <div className="space-y-2.5 text-sm text-[#bec9be]">
-              <div className="flex items-start space-x-3">
-                <MapPin className="w-4 h-4 text-[#81d9a1] shrink-0 mt-0.5" />
-                <span>Level 14, World Trade Centre, Colombo 01, Sri Lanka</span>
-              </div>
-              <div className="flex items-center space-x-3">
-                <Phone className="w-4 h-4 text-[#81d9a1] shrink-0" />
-                <span>+94 (11) 234 5678</span>
-              </div>
-              <div className="flex items-center space-x-3">
-                <Mail className="w-4 h-4 text-[#81d9a1] shrink-0" />
-                <span>concierge@ceylondiscovery.com</span>
-              </div>
-            </div>
-          </div>
-
+    <footer className="bg-[#ffffff] border-t border-[#bec9be] w-full pt-16 pb-10">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-8 px-6 md:px-12 max-w-7xl mx-auto mb-12">
+        {/* Brand & Description */}
+        <div className="col-span-1 md:col-span-1 space-y-3">
+          <button 
+            onClick={() => onSelectTab('home')}
+            className="font-headline-sm text-2xl font-bold text-[#00502d] hover:opacity-80 text-left block"
+          >
+            CeylonDiscovery
+          </button>
+          <p className="font-body-md text-sm text-[#3f4941] leading-relaxed">
+            Curating exceptional journeys across the teardrop isle. Discover beauty, history, and unparalleled hospitality.
+          </p>
         </div>
 
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-[#bec9be] space-y-4 sm:space-y-0">
-          <p>© {new Date().getFullYear()} CeylonDiscovery. All rights reserved.</p>
-          <div className="flex space-x-6">
-            <a href="#privacy" className="hover:underline">Privacy Policy</a>
-            <a href="#terms" className="hover:underline">Terms of Service</a>
-            <a href="#sustainability" className="hover:underline">Sustainable Tourism Pledge</a>
-          </div>
+        {/* Explore Links */}
+        <div>
+          <h4 className="font-label-md text-xs text-[#1b1c19] uppercase tracking-wider font-semibold mb-4">Explore</h4>
+          <ul className="space-y-2.5">
+            <li>
+              <button onClick={() => onSelectTab('destinations')} className="font-label-md text-sm text-[#3f4941] hover:text-[#1961a1] hover:underline transition-all">
+                Destinations
+              </button>
+            </li>
+            <li>
+              <button onClick={() => onSelectTab('experiences')} className="font-label-md text-sm text-[#3f4941] hover:text-[#1961a1] hover:underline transition-all">
+                Experiences
+              </button>
+            </li>
+            <li>
+              <button onClick={() => onSelectTab('culture')} className="font-label-md text-sm text-[#3f4941] hover:text-[#1961a1] hover:underline transition-all">
+                Culture
+              </button>
+            </li>
+          </ul>
         </div>
 
+        {/* Support Links */}
+        <div>
+          <h4 className="font-label-md text-xs text-[#1b1c19] uppercase tracking-wider font-semibold mb-4">Support</h4>
+          <ul className="space-y-2.5">
+            <li>
+              <button onClick={() => onSelectTab('about')} className="font-label-md text-sm text-[#3f4941] hover:text-[#1961a1] hover:underline transition-all">
+                Privacy Policy
+              </button>
+            </li>
+            <li>
+              <button onClick={() => onSelectTab('about')} className="font-label-md text-sm text-[#3f4941] hover:text-[#1961a1] hover:underline transition-all">
+                Terms of Service
+              </button>
+            </li>
+            <li>
+              <button onClick={() => onSelectTab('about')} className="font-label-md text-sm text-[#3f4941] hover:text-[#1961a1] hover:underline transition-all">
+                Contact Us
+              </button>
+            </li>
+            <li>
+              <button onClick={() => onSelectTab('about')} className="font-label-md text-sm text-[#3f4941] hover:text-[#1961a1] hover:underline transition-all">
+                Sitemap
+              </button>
+            </li>
+          </ul>
+        </div>
+
+        {/* Connect Links */}
+        <div>
+          <h4 className="font-label-md text-xs text-[#1b1c19] uppercase tracking-wider font-semibold mb-4">Connect</h4>
+          <div className="flex space-x-3">
+            <a href="#" className="w-10 h-10 rounded-full bg-[#f0eee9] flex items-center justify-center text-[#3f4941] hover:text-[#00502d] hover:scale-110 transition-all" aria-label="Website">
+              <span className="material-symbols-outlined text-xl">public</span>
+            </a>
+            <a href="#" className="w-10 h-10 rounded-full bg-[#f0eee9] flex items-center justify-center text-[#3f4941] hover:text-[#00502d] hover:scale-110 transition-all" aria-label="Photos">
+              <span className="material-symbols-outlined text-xl">photo_camera</span>
+            </a>
+            <a href="#" className="w-10 h-10 rounded-full bg-[#f0eee9] flex items-center justify-center text-[#3f4941] hover:text-[#00502d] hover:scale-110 transition-all" aria-label="Mail">
+              <span className="material-symbols-outlined text-xl">mail</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div className="text-center font-body-md text-sm text-[#3f4941] pt-6 border-t border-[#f0eee9] px-6">
+        © 2024 Visit Sri Lanka. Serenity in every step.
       </div>
     </footer>
   );

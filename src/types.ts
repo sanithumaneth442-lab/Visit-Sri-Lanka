@@ -1,65 +1,60 @@
-export type ViewType = 'home' | 'destinations' | 'experiences' | 'plan' | 'culture' | 'about';
+export type ViewTab = 'home' | 'destinations' | 'experiences' | 'culture' | 'about' | 'craft-journey';
 
-export type CategoryType = 'All' | 'Coast' | 'Highlands' | 'Heritage' | 'Wildlife';
+export type DestinationCategory = 'All' | 'Coast' | 'Highlands' | 'Heritage' | 'Wildlife';
 
 export interface Destination {
   id: string;
-  title: string;
-  subtitle: string;
+  name: string;
+  category: DestinationCategory;
   region: string;
-  category: 'Coast' | 'Highlands' | 'Heritage' | 'Wildlife';
+  pricePerNight: number;
   description: string;
   longDescription: string;
-  pricePerNight?: number;
-  startingPrice?: number;
-  image: string;
-  alt: string;
+  imageUrl: string;
+  altText: string;
   highlights: string[];
   bestTimeToVisit: string;
-  tag?: string;
-  gridSpan?: 'large' | 'tall' | 'standard';
+  suggestedDuration: string;
+  featured?: boolean;
 }
 
-export interface Experience {
+export interface ExperienceCategory {
   id: string;
   title: string;
-  subtitle: string;
-  category: string;
-  description: string;
-  image: string;
-  alt: string;
-  highlights: string[];
-  actionLabel: string;
-  badge: string;
+  tag: string;
   icon: string;
+  description: string;
+  ctaText: string;
+  items: {
+    title: string;
+    description: string;
+    imageUrl: string;
+    altText: string;
+    linkLocation?: string;
+  }[];
 }
 
-export interface ItineraryDraft {
+export interface BookingState {
   arrivalDate: string;
   departureDate: string;
-  travelers: 'Solo' | 'Couple' | 'Family/Group';
-  selectedInterests: string[];
-  accommodationType: 'Luxury Boutique' | 'Eco Lodge' | 'Colonial Estate' | 'Beach Villa';
-  pace: 'Relaxed' | 'Balanced' | 'Active Exploration';
-  budgetLevel: 'Standard Luxury' | 'Ultra Premium' | 'Custom';
+  travelerType: 'Solo' | 'Couple' | 'Family/Group';
+  travelerCount: number;
+  selectedExperiences: string[];
+  accommodationType: 'Boutique Luxury' | 'Eco Lodges' | 'Heritage Hotels' | 'Beach Resorts';
+  pace: 'Relaxed' | 'Balanced' | 'Active Explorer';
+  selectedDestinations: string[];
+  contactName: string;
+  contactEmail: string;
+  contactPhone: string;
   specialRequests: string;
 }
 
-export interface GeneratedItineraryDay {
-  dayNumber: number;
+export interface SampleItinerary {
+  id: string;
   title: string;
-  location: string;
+  durationDays: number;
+  tags: string[];
+  highlights: string[];
+  priceEstimate: string;
   description: string;
-  morningActivity: string;
-  afternoonActivity: string;
-  eveningActivity: string;
-  stayRecommendation: string;
-}
-
-export interface Testimonial {
-  quote: string;
-  author: string;
-  details: string;
-  avatar: string;
-  rating: number;
 }
